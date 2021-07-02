@@ -10,7 +10,6 @@ export default class TaskList {
         this.allTasksList = document.querySelector('.all-tasks-list');
 
         this.drawLists();
-
         this.addListener();
     }
 
@@ -37,6 +36,14 @@ export default class TaskList {
     drawContentAllTask(visualArray = this.arrTask) {
         this.allTasksList.innerHTML = '';
         this.arrAllTask = visualArray.filter(item => item.pinned === false);
+        if (this.input.value.trim() !== '') {
+            this.arrAllTask = this.arrAllTask.filter(item => {
+                const valueLower = item.value;
+                const inputValue = this.input.value;
+                return valueLower.toLowerCase().includes(inputValue.toLowerCase());
+            });
+        }
+
         for(let i of this.arrAllTask) {
             const li = document.createElement('li');
             li.classList.add('tasks-item');
@@ -48,7 +55,6 @@ export default class TaskList {
         }
         this.checkEmptyBlock(this.allTasksList);
     }
-
 
     checkEmptyBlock(checklist) {
         const emptyBlock = checklist.closest('.content-list').querySelector('.empty-block');
@@ -63,23 +69,18 @@ export default class TaskList {
         this.input.addEventListener('keyup', event => {
             if(event.key === 'Enter') {
                 this.checkInputText(this.input.value);
+                this.drawContentAllTask();
             }
         })
 
         this.input.addEventListener('focus', event => {
+            this.input.classList.remove('input-error');
             this.error.classList.remove('active');
         }) 
 
         this.input.addEventListener('input', event => {
-            const value = this.input.value;
-            if (value.trim() === '') {
-                this.drawContentAllTask();
-                return;
-            }
-            const currentArr = this.arrTask.filter(item => item.value.includes(value));
-            this.drawContentAllTask(currentArr);
+            this.drawContentAllTask();
         }) 
-        
 
         document.addEventListener('click', event => {
             if (event.target.closest('.checked-field')) {
@@ -93,6 +94,7 @@ export default class TaskList {
     checkInputText(value) {
         if (value.trim() === '') {
             this.error.classList.add('active');
+            this.input.classList.add('input-error');
         } else {
             this.arrTask.push(new Task(value));
             this.drawContentAllTask();

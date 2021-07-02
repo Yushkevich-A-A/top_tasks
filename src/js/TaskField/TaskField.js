@@ -35,7 +35,7 @@ export default class TaskField {
                                         <ul class="all-tasks-list">
                                         </ul>
                                         <div class="empty-block">
-                                          <p>No pinned tasks</p>
+                                          <p>No tasks found</p>
                                         </div>
                                       </div>
                                     </div>
