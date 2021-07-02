@@ -12,15 +12,32 @@ export default class TaskField {
                                 <div class="content">
                                   <div class="field-input">
                                     <input class="input-text" type="text">
+                                    <div class="error">
+                                      <span class="error-text">
+                                        * поле ввода не должно быть пустым    
+                                      </span>
+                                    </div>
                                   </div>
                                   <div class="field-result">
-                                    <div class="field-pinned-tasks">
-                                      <h2 class="sub-title">pinned tasks</h2>
-                                      <ul></ul>
+                                    <div class="field-tasks pinned">
+                                      <h2 class="sub-title">Pinned</h2>
+                                      <div class="content-list">
+                                        <ul class="pinned-tasks-list">
+                                        </ul>
+                                        <div class="empty-block">
+                                          <p>No pinned tasks</p>
+                                        </div>
+                                      </div>
                                     </div>
-                                    <div class="field-all-tasks">
-                                      <h2 class="sub-title">all tasks</h2>
-                                      <ul></ul>
+                                    <div class="field-tasks all">
+                                      <h2 class="sub-title">All Tasks</h2>
+                                      <div class="content-list">
+                                        <ul class="all-tasks-list">
+                                        </ul>
+                                        <div class="empty-block">
+                                          <p>No pinned tasks</p>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>`   

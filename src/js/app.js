@@ -1,3 +1,5 @@
 import TaskField from './TaskField/TaskField'
+import TaskList from './TaskList/TaskList';
 
-new TaskField();
+const app = new TaskField();
+new TaskList(app);
