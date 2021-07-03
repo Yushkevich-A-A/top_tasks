@@ -9,33 +9,23 @@ export default class TaskList {
         this.pinnedTasksList = document.querySelector('.pinned-tasks-list');
         this.allTasksList = document.querySelector('.all-tasks-list');
 
-        this.drawLists();
+        this.initDrawLists();
         this.addListener();
     }
 
-    drawLists() {
+    initDrawLists() {
         this.drawContentPinnedTask();
         this.drawContentAllTask();
     }
 
     drawContentPinnedTask() {
-        this.pinnedTasksList.innerHTML = '';
         this.arrPinnedTask = this.arrTask.filter(item => item.pinned === true);
-        for(let i of this.arrPinnedTask) {
-            const li = document.createElement('li');
-            li.classList.add('tasks-item');
-            li.dataset.index = this.arrTask.findIndex(item => item === i);
-            li.innerHTML = `<p></p>
-            <div class="checked-field checked"></div>`;
-            li.children[0].textContent = i.value;
-            this.pinnedTasksList.appendChild(li);
-        }
-        this.checkEmptyBlock(this.pinnedTasksList);
+        this.drawList(this.pinnedTasksList, this.arrPinnedTask, 'checked-field checked');
     }
 
-    drawContentAllTask(visualArray = this.arrTask) {
-        this.allTasksList.innerHTML = '';
-        this.arrAllTask = visualArray.filter(item => item.pinned === false);
+    drawContentAllTask() {
+        this.arrAllTask = this.arrTask.filter(item => item.pinned === false);
+       
         if (this.input.value.trim() !== '') {
             this.arrAllTask = this.arrAllTask.filter(item => {
                 const valueLower = item.value;
@@ -44,17 +34,24 @@ export default class TaskList {
             });
         }
 
-        for(let i of this.arrAllTask) {
+        this.drawList(this.allTasksList, this.arrAllTask, 'checked-field');
+    }
+
+    drawList(mainArray, arrayData, className) {
+        mainArray.innerHTML = '';
+        for(let i of arrayData) {
             const li = document.createElement('li');
             li.classList.add('tasks-item');
             li.dataset.index = this.arrTask.findIndex(item => item === i);
             li.innerHTML = `<p></p>
-            <div class="checked-field"></div>`;
+            <div class="${className}"></div>`;
             li.children[0].textContent = i.value;
-            this.allTasksList.appendChild(li);
+            mainArray.appendChild(li);
         }
-        this.checkEmptyBlock(this.allTasksList);
+        this.checkEmptyBlock(mainArray);
     }
+
+
 
     checkEmptyBlock(checklist) {
         const emptyBlock = checklist.closest('.content-list').querySelector('.empty-block');
@@ -86,7 +83,7 @@ export default class TaskList {
             if (event.target.closest('.checked-field')) {
                 const li = event.target.closest('.tasks-item');
                 this.arrTask[li.dataset.index].checked();
-                this.drawLists();
+                this.initDrawLists();
             }
         }) 
     }
