@@ -40,9 +40,8 @@ export default class TaskField {
                                       </div>
                                     </div>
                                   </div>
-                                </div>`   
+                                </div>`;
 
-    
     document.body.appendChild(this.taskField);
   }
 }
